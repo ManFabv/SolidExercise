@@ -3,7 +3,7 @@ using System.Linq;
 using Domain;
 using NUnit.Framework;
 
-namespace Business.Test
+namespace Test
 {
     [TestFixture()]
     class ContactoTest

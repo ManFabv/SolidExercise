@@ -46,11 +46,5 @@
     <Compile Include="Entrada.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Persistence\Persistence.csproj">
-      <Project>{9e89abf6-5109-4546-bedc-3301aef506b4}</Project>
-      <Name>Persistence</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

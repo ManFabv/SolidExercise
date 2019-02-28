@@ -9,7 +9,10 @@ namespace Domain
 
         public void Agregar(Contacto contacto)
         {
-            throw new NotImplementedException();
+            if(contacto == null) return;
+            if(contactos.Contains(contacto)) return;
+
+            contactos.Add(contacto);
         }
 
         public Contacto Leer()
