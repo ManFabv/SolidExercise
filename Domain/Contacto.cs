@@ -6,7 +6,7 @@ namespace Domain
 {
     public class Contacto
     {
-        private List<Entrada> entradas = new List<Entrada>();
+        public List<Entrada> entradas = new List<Entrada>();
 
         public string Nombre { get; private set; }
         public string Apellido { get; private set; }

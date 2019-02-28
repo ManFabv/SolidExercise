@@ -6,16 +6,23 @@ namespace Persistence
 {
     public class LeerDesdeArchivo
     {
+        public string FilePath { get; private set; }
+
         public Agenda LeerArchivo()
         {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), @"json\agenda.json");
+            FilePath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"json\agenda.json");
 
-            using (StreamReader jsonStream = File.OpenText(path))
+            using (StreamReader jsonStream = File.OpenText(FilePath))
             {
                 var json = jsonStream.ReadToEnd();
 
                 return JsonConvert.DeserializeObject<Agenda>(json);
             }
+        }
+
+        public bool ExistenDatos()
+        {
+            return File.Exists(FilePath);
         }
     }
 }

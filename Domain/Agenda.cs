@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain
 {
     public class Agenda
     {
-        private List<Contacto> contactos = new List<Contacto>();
+        public List<Contacto> contactos = new List<Contacto>();
 
         public void Agregar(Contacto contacto)
         {
@@ -15,14 +16,16 @@ namespace Domain
             contactos.Add(contacto);
         }
 
-        public Contacto Leer()
+        public Contacto Leer(string filtro)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(filtro)) return null;
+
+            return contactos.FirstOrDefault(item => item.Contiene(filtro));
         }
 
-        public IEnumerable<Contacto> LeerTodos(string expresionDeBusqueda)
+        public IEnumerable<Contacto> LeerTodos()
         {
-            throw new NotImplementedException();
+            return contactos;
         }
     }
 }

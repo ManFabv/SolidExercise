@@ -6,17 +6,24 @@ namespace Persistence
 {
     public class GuardarHaciaArchivo
     {
+        public string FilePath { get; private set; }
+
         public void GrabarArchivo(Agenda a)
         {
             if (a == null) return;
 
             var json = JsonConvert.SerializeObject(a);
 
-            string directory = Path.Combine(Directory.GetCurrentDirectory(), @"json\");
-            string path = directory + "agenda.json";
+            var directory = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"json\");
+            FilePath = directory + "agenda.json";
             Directory.CreateDirectory(directory);
 
-            File.WriteAllText(path, json);
+            File.WriteAllText(FilePath, json);
+        }
+
+        public bool ExistenDatos()
+        {
+            return File.Exists(FilePath);
         }
     }
 }
