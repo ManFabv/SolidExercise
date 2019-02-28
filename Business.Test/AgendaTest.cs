@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Domain;
 using NUnit.Framework;
 
@@ -10,6 +11,7 @@ namespace Test
         private Agenda agenda;
         private Contacto contacto;
         private Entrada entrada;
+        private string path;
 
         [SetUp]
         public void SetUp()
@@ -23,22 +25,41 @@ namespace Test
             contacto.Agregar(entrada);
 
             agenda.Agregar(contacto);
+
+            path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"json\");
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
         }
 
         [Test]
         public void GuardarDatosEnDisco()
         {
-            agenda.GrabarArchivo();
+            var memoryStreamWriter = new MemoryStream();
+            using (var writer = new StreamWriter(memoryStreamWriter))
+            {
+                agenda.GrabarArchivo(writer);
 
-            //TODO: FALTA COMPLETAR TEST
+                Assert.That(memoryStreamWriter.Length, Is.GreaterThan(0));
+            }
         }
 
         [Test]
         public void LeerDatosDeDisco()
         {
-            agenda.LeerArchivo();
+            //TODO: TERMINAR TEST
+            //var memoryStreamWriter = new MemoryStream();
+            //using (var writer = new StreamWriter(memoryStreamWriter))
+            //{
+            //    agenda.GrabarArchivo(writer);
 
-            //TODO: FALTA COMPLETAR TEST
+            //    using (var reader = new StreamReader(memoryStreamWriter))
+            //    {
+            //        var a = agenda.LeerArchivo(reader);
+
+            //        Assert.That(agenda.Leer("Juan"), Is.EqualTo(a.Leer("Juan")));
+            //    }
+            //}
         }
     }
 }

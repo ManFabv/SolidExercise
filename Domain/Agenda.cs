@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -9,8 +8,6 @@ namespace Domain
     public class Agenda
     {
         private List<Contacto> contactos = new List<Contacto>();
-
-        public string FilePath { get; private set; }
 
         public void Agregar(Contacto contacto)
         {
@@ -32,27 +29,25 @@ namespace Domain
             return contactos;
         }
 
-        public Agenda LeerArchivo()
+        public Agenda LeerArchivo(TextReader reader)
         {
-            FilePath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"json\agenda.json");
+            string line = string.Empty;
+            string json = string.Empty;
 
-            using (StreamReader jsonStream = File.OpenText(FilePath))
+            while ((line = reader.ReadLine()) != null)
             {
-                var json = jsonStream.ReadToEnd();
-
-                return JsonConvert.DeserializeObject<Agenda>(json);
+                json += line;
             }
+
+            return JsonConvert.DeserializeObject<Agenda>(json);
         }
 
-        public void GrabarArchivo()
+        public void GrabarArchivo(TextWriter writer)
         {
             var json = JsonConvert.SerializeObject(this);
 
-            var directory = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, @"json\");
-            FilePath = directory + "agenda.json";
-            Directory.CreateDirectory(directory);
-
-            File.WriteAllText(FilePath, json);
+            writer.WriteLine(json);
+            writer.Flush();
         }
     }
 }
