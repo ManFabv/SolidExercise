@@ -1,7 +1,6 @@
 ﻿using System;
 using Domain;
 using NUnit.Framework;
-using Persistence;
 
 namespace Test
 {
@@ -29,25 +28,17 @@ namespace Test
         [Test]
         public void GuardarDatosEnDisco()
         {
-            var guardar = new GuardarHaciaArchivo();
+            agenda.GrabarArchivo();
 
-            guardar.GrabarArchivo(agenda);
-
-            var existe = guardar.ExistenDatos();
-
-            Assert.IsTrue(existe);
+            //TODO: FALTA COMPLETAR TEST
         }
 
         [Test]
         public void LeerDatosDeDisco()
         {
-            var leer = new LeerDesdeArchivo();
+            agenda.LeerArchivo();
 
-            leer.LeerArchivo();
-
-            var existe = leer.ExistenDatos();
-
-            Assert.IsTrue(existe);
+            //TODO: FALTA COMPLETAR TEST
         }
     }
 }
