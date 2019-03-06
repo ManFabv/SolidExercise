@@ -28,5 +28,13 @@ namespace Domain
 
             return Valor.Contains(expresionDeBusqueda);
         }
+
+        public bool ComienzaCon(string expresionDeBusqueda)
+        {
+            if (expresionDeBusqueda == null) return false;
+            if (string.IsNullOrWhiteSpace(expresionDeBusqueda)) return true;
+
+            return Valor.ComienzaCon(expresionDeBusqueda);
+        }
     }
 }

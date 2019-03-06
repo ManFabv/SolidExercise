@@ -91,5 +91,17 @@ namespace Test
         {
             Assert.True(agenda.Contiene("San Martin Lopez"));
         }
+
+        [Test]
+        public void BuscarEnEntradaComienzaConValido()
+        {
+            Assert.True(agenda.ComienzaCon("Lop"));
+        }
+
+        [Test]
+        public void BuscarEnEntradaComienzaConInvalido()
+        {
+            Assert.False(agenda.ComienzaCon("pez"));
+        }
     }
 }

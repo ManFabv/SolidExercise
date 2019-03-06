@@ -36,6 +36,16 @@ namespace Domain
             return palabras.All(palabra => Nombre.Contains(palabra) || Apellido.Contains(palabra) || LeerTodas().Any(x => x.Contiene(palabra)));
         }
 
+        public bool ComienzaCon(string filtro)
+        {
+            if (filtro is null) return false;
+            if (filtro == "") return true;
+
+            var palabras = filtro.Split(new[] { ' ' });
+
+            return palabras.All(palabra => Nombre.ComienzaCon(palabra) || Apellido.ComienzaCon(palabra) || LeerTodas().Any(x => x.ComienzaCon(palabra)));
+        }
+
         public IEnumerable<Entrada> LeerTodas()
         {
             return entradas;

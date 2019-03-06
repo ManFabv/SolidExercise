@@ -1,10 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 namespace Domain
 {
+    public static class StringExtensionMethods
+    {
+        public static bool ComienzaCon(this string palabra, string filtro)
+        {
+            return filtro.Split(new[] {' '}).All(p => palabra.StartsWith(p, true, CultureInfo.InvariantCulture));
+        }
+    }
+
     public class Agenda
     {
         private List<Contacto> contactos = new List<Contacto>();
@@ -53,6 +63,11 @@ namespace Domain
         public bool Contiene(string filtro)
         {
             return contactos.Any(contacto => contacto.Contiene(filtro));
+        }
+
+        public bool ComienzaCon(string filtro)
+        {
+            return contactos.Any(contacto => contacto.ComienzaCon(filtro));
         }
     }
 }
