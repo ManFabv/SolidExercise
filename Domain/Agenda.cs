@@ -49,5 +49,10 @@ namespace Domain
             writer.WriteLine(json);
             writer.Flush();
         }
+
+        public bool Contiene(string filtro)
+        {
+            return contactos.Any(contacto => contacto.Contiene(filtro));
+        }
     }
 }

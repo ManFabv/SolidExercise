@@ -28,10 +28,12 @@ namespace Domain
 
         public bool Contiene(string filtro)
         {
-            if(filtro is null) return false;
-            if(filtro == "") return true;
+            if (filtro is null) return false;
+            if (filtro == "") return true;
 
-            return Nombre.Contains(filtro) || Apellido.Contains(filtro) || LeerTodas().Any(x => x.Contiene(filtro));
+            var palabras = filtro.Split(new[] { ' ' });
+
+            return palabras.All(palabra => Nombre.Contains(palabra) || Apellido.Contains(palabra) || LeerTodas().Any(x => x.Contiene(palabra)));
         }
 
         public IEnumerable<Entrada> LeerTodas()

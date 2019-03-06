@@ -9,8 +9,10 @@ namespace Test
     class AgendaTest
     {
         private Agenda agenda;
-        private Contacto contacto;
-        private Entrada entrada;
+        private Contacto contacto_JL;
+        private Contacto contacto_JP;
+        private Entrada entrada_JL;
+        private Entrada entrada_JP;
         private string path;
 
         [SetUp]
@@ -18,13 +20,17 @@ namespace Test
         {
             agenda = new Agenda();
 
-            contacto = new Contacto("Jose", "Lopez", new DateTime(2015, 5, 10));
+            contacto_JL = new Contacto("Jose", "Lopez", new DateTime(2015, 5, 10));
+            contacto_JP = new Contacto("Juan", "Perez", new DateTime(1984, 4, 28));
 
-            entrada = new Entrada("San Martin 200", TipoEntrada.Domicilio);
+            entrada_JL = new Entrada("San Martin 200", TipoEntrada.Domicilio);
+            entrada_JP = new Entrada("25 de Mayo 1000", TipoEntrada.Domicilio);
 
-            contacto.Agregar(entrada);
+            contacto_JL.Agregar(entrada_JL);
+            contacto_JP.Agregar(entrada_JP);
 
-            agenda.Agregar(contacto);
+            agenda.Agregar(contacto_JL);
+            agenda.Agregar(contacto_JP);
 
             path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"json\");
 
@@ -44,10 +50,10 @@ namespace Test
             }
         }
 
+        //TODO: TERMINAR TEST
         [Test]
         public void LeerDatosDeDisco()
-        {
-            //TODO: TERMINAR TEST
+        {   
             //var memoryStreamWriter = new MemoryStream();
             //using (var writer = new StreamWriter(memoryStreamWriter))
             //{
@@ -60,6 +66,30 @@ namespace Test
             //        Assert.That(agenda.Leer("Juan"), Is.EqualTo(a.Leer("Juan")));
             //    }
             //}
+        }
+
+        [Test]
+        public void BuscarApellidoYNombreIntercambiado()
+        {
+            Assert.True(agenda.Contiene("Lopez Jose"));
+        }
+
+        [Test]
+        public void BuscarApellidoYNombreCompletoInvalido()
+        {
+            Assert.False(agenda.Contiene("Jose Perez"));
+        }
+
+        [Test]
+        public void BuscarEnEntradaInvalido()
+        {
+            Assert.False(agenda.Contiene("San Mayo 1000"));
+        }
+
+        [Test]
+        public void BuscarEnEntradaMezcladosDatos()
+        {
+            Assert.True(agenda.Contiene("San Martin Lopez"));
         }
     }
 }
