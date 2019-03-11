@@ -2,6 +2,7 @@
 using System.IO;
 using Domain;
 using NUnit.Framework;
+using NUnit.Framework.Internal.Execution;
 
 namespace Test
 {
@@ -13,12 +14,23 @@ namespace Test
         private Contacto contacto_JP;
         private Entrada entrada_JL;
         private Entrada entrada_JP;
+        private IAlmacenamiento almacenamiento;
         private string path;
 
         [SetUp]
         public void SetUp()
         {
-            agenda = new Agenda();
+            path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"json\");
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            var stream = new MemoryStream();
+            var reader = new StreamReader(stream);
+            var writer = new StreamWriter(stream);
+
+            almacenamiento = new Almacenamiento(reader, writer);
+            agenda = new Agenda(almacenamiento);
 
             contacto_JL = new Contacto("Jose", "Lopez", new DateTime(2015, 5, 10));
             contacto_JP = new Contacto("Juan", "Perez", new DateTime(1984, 4, 28));
@@ -31,41 +43,18 @@ namespace Test
 
             agenda.Agregar(contacto_JL);
             agenda.Agregar(contacto_JP);
-
-            path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"json\");
-
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
         }
 
         [Test]
         public void GuardarDatosEnDisco()
         {
-            var memoryStreamWriter = new MemoryStream();
-            using (var writer = new StreamWriter(memoryStreamWriter))
-            {
-                agenda.GrabarArchivo(writer);
-
-                Assert.That(memoryStreamWriter.Length, Is.GreaterThan(0));
-            }
+            agenda.GrabarArchivo();
         }
 
-        //TODO: TERMINAR TEST
         [Test]
         public void LeerDatosDeDisco()
-        {   
-            //var memoryStreamWriter = new MemoryStream();
-            //using (var writer = new StreamWriter(memoryStreamWriter))
-            //{
-            //    agenda.GrabarArchivo(writer);
-
-            //    using (var reader = new StreamReader(memoryStreamWriter))
-            //    {
-            //        var a = agenda.LeerArchivo(reader);
-
-            //        Assert.That(agenda.Leer("Juan"), Is.EqualTo(a.Leer("Juan")));
-            //    }
-            //}
+        {
+            var a = agenda.LeerArchivo();
         }
 
         [Test]

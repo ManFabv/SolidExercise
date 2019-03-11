@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
 namespace Domain
@@ -18,6 +17,13 @@ namespace Domain
     public class Agenda
     {
         private List<Contacto> contactos = new List<Contacto>();
+
+        private IAlmacenamiento Almacenamiento { get; set; }
+
+        public Agenda(IAlmacenamiento almacenamiento)
+        {
+            Almacenamiento = almacenamiento;
+        }
 
         public void Agregar(Contacto contacto)
         {
@@ -39,25 +45,14 @@ namespace Domain
             return contactos;
         }
 
-        public Agenda LeerArchivo(TextReader reader)
+        public Agenda LeerArchivo()
         {
-            string line = string.Empty;
-            string json = string.Empty;
-
-            while ((line = reader.ReadLine()) != null)
-            {
-                json += line;
-            }
-
-            return JsonConvert.DeserializeObject<Agenda>(json);
+            return Almacenamiento?.Leer();
         }
 
-        public void GrabarArchivo(TextWriter writer)
+        public void GrabarArchivo()
         {
-            var json = JsonConvert.SerializeObject(this);
-
-            writer.WriteLine(json);
-            writer.Flush();
+            Almacenamiento?.Escribir(this);
         }
 
         public bool Contiene(string filtro)

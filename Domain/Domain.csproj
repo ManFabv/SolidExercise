@@ -45,8 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agenda.cs" />
+    <Compile Include="Almacenamiento.cs" />
     <Compile Include="Contacto.cs" />
     <Compile Include="Entrada.cs" />
+    <Compile Include="IAlmacenamiento.cs" />
+    <Compile Include="IEscribir.cs" />
+    <Compile Include="ILeer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
